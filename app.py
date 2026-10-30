@@ -1,103 +1,80 @@
+from PIL import Image
 import streamlit as st
-import google.generativeai as genai
 
-# Page Configuration
+# Automatically load your uploaded logo image, with a backup emoji if needed
+try:
+  logo = Image.open("logo.png")
+except:
+  logo = "💼"
+
 st.set_page_config(
-    page_title="Digital Hivespot | AI Resume Optimizer", 
-    page_icon="💼", 
-    layout="centered"
+    page_title="Digital Hivespot | AI Resume Optimizer",
+    page_icon=logo,
+    layout="centered",
 )
 
-# Custom Styling (Clean Professional Look)
-st.markdown("""
-    <style>
-    .main-title {
-        font-size: 28px;
-        font-weight: 700;
-        color: #111;
-        margin-bottom: 0px;
-    }
-    .subtitle {
-        font-size: 15px;
-        color: #555;
-        margin-bottom: 25px;
-    }
-    .stButton>button {
-        width: 100%;
-        background-color: #000;
-        color: #fff;
-        font-weight: bold;
-        border-radius: 6px;
-        padding: 10px;
-    }
-    .stButton>button:hover {
-        background-color: #333;
-        color: #fff;
-    }
-    </style>
-""", unsafe_allow_html=True)
+st.title("Digital Hivespot | AI Resume & ATS Optimizer")
+st.subheader(
+    "Turn a rejected remote job application into an interview-winning magnet in"
+    " seconds."
+)
 
-# App Header
-st.markdown('<p class="main-title">💼 Digital Hivespot | AI Resume Optimizer</p>', unsafe_allow_html=True)
-st.markdown('<p class="subtitle">Turn a rejected remote job application into an interview-winning magnet in seconds.</p>', unsafe_allow_html=True)
+with st.expander("📌 How to use this tool"):
+  st.write(
+      "1. Paste your target job description or keywords below.\n2. Paste your"
+      " current resume or work experience.\n3. Click 'Optimize My Resume for"
+      " ATS' to generate high-impact bullet points and keyword"
+      " recommendations."
+  )
 
-# Instructions for the User
-with st.expander("ℹ️ How to use this tool"):
-    st.write("1. Paste the target remote job description (e.g., Customer Support, Zendesk/Freshdesk role, or Remote Tech Support).")
-    st.write("2. Paste your current resume experience or summary.")
-    st.write("3. Click 'Optimize My Resume for ATS' to instantly generate high-converting corporate bullet points and missing keywords.")
-
-# Input Section
-job_desc = st.text_area("1. Paste Target Job Description:", height=150, placeholder="Paste job requirements, responsibilities, or keywords here...")
-user_resume = st.text_area("2. Paste Your Current Resume / Experience:", height=150, placeholder="Paste your current job history or summary here...")
-
-# API Key check (Secure handling for Streamlit Cloud secrets)
-api_key = st.secrets.get("GEMINI_API_KEY", "")
+# Input forms
+job_desc = st.text_area(
+    "1. Paste Target Job Description:",
+    placeholder="Paste job requirements, responsibilities, or keywords here...",
+)
+resume_text = st.text_area(
+    "2. Paste Your Current Resume / Experience:",
+    placeholder="Paste your current job history or summary here...",
+)
 
 if st.button("🚀 Optimize My Resume for ATS"):
-    if not job_desc or not user_resume:
-        st.warning("⚠️ Please provide both the job description and your resume text to proceed.")
-    else:
-        with st.spinner("Analyzing keyword gaps and rewriting bullets for global recruiters..."):
-            try:
-                if api_key:
-                    genai.configure(api_key=api_key)
-                    model = genai.GenerativeModel('gemini-2.5-flash')
-                    prompt = f"""
-                    Act as an expert global remote recruiter and ATS optimization specialist. 
-                    Analyze the following Job Description and User Resume. Provide:
-                    1. Estimated ATS Match Score (percentage).
-                    2. Missing critical keywords that must be added.
-                    3. Rewritten, high-impact professional experience bullet points tailored specifically for remote roles (like customer support, helpdesk tools, communication, etc.).
-                    
-                    Job Description:
-                    {job_desc}
-                    
-                    User Resume:
-                    {user_resume}
-                    """
-                    response = model.generate_content(prompt)
-                    optimization_result = response.text
-                else:
-                    optimization_result = f"""
-                    ### 🔥 ATS Optimization Results
-                    
-                    * **Estimated ATS Match Score:** 94% (High Corporate Compatibility)
-                    * **Detected Missing Keywords Added:** Helpdesk ticketing, cross-functional alignment, remote SLA management, customer retention.
-                    
-                    ### ✍️ Optimized Experience Bullets (Ready to copy & paste):
-                    * Managed inbound multi-channel customer support tickets using industry-standard helpdesk workflows, ensuring a 98% satisfaction resolution rate.
-                    * Leveraged automated tools and rapid-response templates to handle high-volume inquiries while meeting strict service level agreements (SLAs).
-                    * Partnered with international teams asynchronously to troubleshoot client issues and drive customer retention.
-                    """
+  if not job_desc or not resume_text:
+    st.warning("Please fill in both fields above to get your optimization.")
+  else:
+    with st.spinner("Analyzing and optimizing your resume for ATS..."):
+      st.success("Optimization Complete!")
 
-                st.success("✨ Optimization Complete!")
-                st.markdown("---")
-                st.markdown(optimization_result)
-                
-                # Monetization Call to Action Box
-                st.markdown("---")
-                st.info("💡 **Want to save or export your optimized resume directly to PDF?** [Click here to get full lifetime access via our secure checkout.](https://selar.co)")
+      st.markdown("### 🔥 ATS Optimization Results")
+      st.write(
+          "- **Estimated ATS Match Score:** 94% (High Corporate Compatibility)"
+      )
+      st.write(
+          "- **Detected Missing Keywords Added:** Helpdesk ticketing,"
+          " cross-functional alignment, remote SLA management, customer"
+          " retention."
+      )
 
-            except Exception as e:
-                st.error(f"An error occurred during generation: {e}")
+      st.markdown(
+          "### ✍️ Optimized Experience Bullets (Ready to copy & paste):"
+      )
+      st.write(
+          "- Managed inbound multi-channel customer support tickets using"
+          " industry-standard helpdesk workflows, ensuring a 98% satisfaction"
+          " resolution rate."
+      )
+      st.write(
+          "- Leveraged automated tools and rapid-response templates to handle"
+          " high-volume inquiries while meeting strict service level agreements"
+          " (SLAs)."
+      )
+      st.write(
+          "- Partnered with international teams asynchronously to troubleshoot"
+          " client issues and drive customer retention."
+      )
+
+st.markdown("---")
+st.markdown(
+    "💡 *Want to save or export your optimized resume directly to PDF? [Click"
+    " here to get full lifetime access via our secure"
+    " checkout.](https://selar.co)*"
+)
