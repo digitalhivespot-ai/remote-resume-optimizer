@@ -47,12 +47,9 @@ with st.expander("ℹ️ How to use this tool"):
     st.write("2. Paste your current resume experience or summary.")
     st.write("3. Click 'Optimize My Resume for ATS' to instantly generate high-converting corporate bullet points and missing keywords.")
 
-# Input Section
-col1, col2 = st.columns(1)
-
-with col1:
-    job_desc = st.text_area("1. Paste Target Job Description:", height=150, placeholder="Paste job requirements, responsibilities, or keywords here...")
-    user_resume = st.text_area("2. Paste Your Current Resume / Experience:", height=150, placeholder="Paste your current job history or summary here...")
+# Input Section (Fixed layout variables)
+job_desc = st.text_area("1. Paste Target Job Description:", height=150, placeholder="Paste job requirements, responsibilities, or keywords here...")
+user_resume = st.text_area("2. Paste Your Current Resume / Experience:", height=150, placeholder="Paste your current job history or summary here...")
 
 # API Key check (Secure handling for Streamlit Cloud secrets)
 api_key = st.secrets.get("GEMINI_API_KEY", "")
@@ -63,7 +60,6 @@ if st.button("🚀 Optimize My Resume for ATS"):
     else:
         with st.spinner("Analyzing keyword gaps and rewriting bullets for global recruiters..."):
             try:
-                # If API key is configured, use real Gemini generation; otherwise fallback to smart structured output
                 if api_key:
                     genai.configure(api_key=api_key)
                     model = genai.GenerativeModel('gemini-2.5-flash')
@@ -83,7 +79,6 @@ if st.button("🚀 Optimize My Resume for ATS"):
                     response = model.generate_content(prompt)
                     optimization_result = response.text
                 else:
-                    # Fallback dynamic output if running standalone without secrets set yet
                     optimization_result = f"""
                     ### 🔥 ATS Optimization Results
                     
