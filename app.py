@@ -3,7 +3,7 @@ import google.generativeai as genai
 
 # Page Configuration
 st.set_page_config(
-    page_title="Digital HiveSport | AI Resume Optimizer", 
+    page_title="Digital Hivespot | AI Resume Optimizer", 
     page_icon="💼", 
     layout="centered"
 )
@@ -38,7 +38,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App Header
-st.markdown('<p class="main-title">💼 AI Remote Job Resume & ATS Optimizer</p>', unsafe_allow_html=True)
+st.markdown('<p class="main-title">💼 Digital Hivespot | AI Resume Optimizer</p>', unsafe_allow_html=True)
 st.markdown('<p class="subtitle">Turn a rejected remote job application into an interview-winning magnet in seconds.</p>', unsafe_allow_html=True)
 
 # Instructions for the User
@@ -47,7 +47,7 @@ with st.expander("ℹ️ How to use this tool"):
     st.write("2. Paste your current resume experience or summary.")
     st.write("3. Click 'Optimize My Resume for ATS' to instantly generate high-converting corporate bullet points and missing keywords.")
 
-# Input Section (Fixed layout variables)
+# Input Section
 job_desc = st.text_area("1. Paste Target Job Description:", height=150, placeholder="Paste job requirements, responsibilities, or keywords here...")
 user_resume = st.text_area("2. Paste Your Current Resume / Experience:", height=150, placeholder="Paste your current job history or summary here...")
 
