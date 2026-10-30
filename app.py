@@ -1,11 +1,8 @@
-from PIL import Image
 import streamlit as st
-# Load your custom logo directly
-logo = Image.open("logo.png")
 
 st.set_page_config(
     page_title="Digital Hivespot | AI Resume Optimizer",
-    page_icon=logo,
+    page_icon="logo.png",
     layout="centered",
 )
 
