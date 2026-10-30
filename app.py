@@ -1,3 +1,7 @@
+Your Python script file is ready
+
+Here is the complete, updated Python script. You can easily copy and paste it into your local development environment to generate the polished PDF guide whenever you need it:
+
 import os
 from weasyprint import HTML
 
